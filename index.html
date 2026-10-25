@@ -10,6 +10,27 @@
 </style>
 </head>
 <body>
+    <div id="playerWelcome" style="background:#fff0fc;padding:15px;border-radius:15px;text-align:center;margin:15px;">
+  <label for="playerName">🦊 What's your name, Math Buddy?</label>
+  <input id="playerName" type="text" maxlength="20" placeholder="Enter your first name" style="padding:10px;border-radius:10px;margin:10px;max-width:90%;">
+  <button type="button" onclick="savePlayerName()">Let's Play! ⭐</button>
+  <p id="playerGreeting"></p>
+</div>
+<script>
+function savePlayerName(){
+  const name=document.getElementById('playerName').value.trim();
+  if(!name)return;
+  localStorage.setItem('mathBuddiesPlayerName',name);
+  document.getElementById('playerGreeting').textContent='Hi, '+name+'! Finn is ready to play! 🦊';
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const name=localStorage.getItem('mathBuddiesPlayerName');
+  if(name){
+    document.getElementById('playerName').value=name;
+    document.getElementById('playerGreeting').textContent='Welcome back, '+name+'! 🦊';
+  }
+});
+</script>
 <header><nav><div class="logo">🌈 Math Buddies</div><div class="pill">⭐ <span id="headerStars">0</span> stars</div></nav></header>
 <main class="shell">
 <section class="welcome"><div><div>✨ A little practice, a lot of confidence</div><h1>Math can be fun!</h1><p>Join Finn the Fox on magical adventures! Listen to the stories, solve puzzles, and collect stars.</p></div><div class="mascot" aria-hidden="true">🦊</div></section>
