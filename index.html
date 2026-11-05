@@ -84,6 +84,65 @@ document.querySelectorAll('[data-topic]').forEach(btn=>btn.addEventListener('cli
 $('reset').addEventListener('click',()=>{if(!confirm('Start fresh? This clears all stars and unlocked chapters on this device.'))return;stopVoice();saved={stars:0,solved:0,streak:0};chapter=0;state.index=0;state.roundCorrect=0;persist();renderStats();renderQuestion()});
 renderStats();renderSound();renderStory();renderQuestion();
 })();
+</y
+
+<section id="matchingGame" style="background:#fff0fc;padding:20px;border-radius:20px;text-align:center;margin:20px;">
+  <h2>🦊 Number Matching Game ⭐</h2>
+  <p>Count the stars and choose the right number!</p>
+  <h2 id="matchStars"></h2>
+  <div id="matchChoices"></div>
+  <p id="matchMessage" aria-live="polite"></p>
+  <p id="matchScore">Stars earned: 0</p>
+  <button type="button" onclick="newMatch()">Next Match ➡️</button>
+</section>
+
+<script>
+let matchAnswer = 0;
+let matchScore = 0;
+
+function newMatch() {
+  matchAnswer = Math.floor(Math.random() * 10) + 1;
+  document.getElementById('matchStars').textContent =
+    '⭐'.repeat(matchAnswer);
+
+  document.getElementById('matchMessage').textContent = '';
+  const choices = document.getElementById('matchChoices');
+  choices.replaceChildren();
+
+  const numbers = new Set([matchAnswer]);
+  while (numbers.size < 4) {
+    numbers.add(Math.floor(Math.random() * 10) + 1);
+  }
+
+  [...numbers].sort(() => Math.random() - 0.5).forEach(n => {
+    const button = document.createElement('button');
+    button.textContent = n;
+    button.style.cssText =
+      'font-size:24px;padding:15px;margin:6px;border-radius:12px;border:2px solid #7655d9;background:white;';
+    button.onclick = () => checkMatch(n);
+    choices.appendChild(button);
+  });
+}
+
+function checkMatch(number) {
+  const message = document.getElementById('matchMessage');
+  if (number === matchAnswer) {
+    matchScore++;
+    document.getElementById('matchScore').textContent =
+      'Stars earned: ' + matchScore;
+    message.textContent = '🌟 Amazing! You matched it!';
+    document.querySelectorAll('#matchChoices button')
+      .forEach(button => button.disabled = true);
+    if (typeof say === 'function') {
+      say('Amazing! You matched the number!');
+    }
+  } else {
+    message.textContent = '💜 Try again, Math Buddy!';
+  }
+}
+
+newMatch();
 </script>
-</body>
+
+ </body>
 </html>
