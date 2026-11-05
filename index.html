@@ -49,7 +49,8 @@ function renderStats(){['stars','solved','streak'].forEach(id=>$(id).textContent
 function available(){return 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window}
 function stopVoice(){if(available())window.speechSynthesis.cancel()}
 function say(words){if(!soundOn){$('soundStatus').textContent='Sound is off. Tap Sound off to turn it on.';return}if(!available()){$('soundStatus').textContent='This browser does not support speech. Try Safari or Chrome.';return}stopVoice();let utterance=new SpeechSynthesisUtterance(String(words).replace(/\bSofia\b/gi,'So fee ah'));utterance.lang='en-US';utterance.rate=.87;utterance.pitch=1.10;utterance.volume=1;const voices=window.speechSynthesis.getVoices();let voice=voices.find(v=>v.lang.toLowerCase().startsWith('en')&&/superstar/i.test(v.name))||voices.find(v=>v.lang.toLowerCase().startsWith('en'));if(voice)utterance.voice=voice;utterance.onstart=()=>{$('soundStatus').textContent='🦊 Finn is talking!'};utterance.onend=()=>{$('soundStatus').textContent='Ready for more fun!'};utterance.onerror=()=>{$('soundStatus').textContent='Could not play voice. Try tapping again.'};window.speechSynthesis.speak(utterance)}
-function renderSound(){$('soundToggle').textContent=soundOn?'🔊 Sound on':'🔇 Sound off';$('soundToggle').setAttribute('aria-pressed',String(soundOn));if(!soundOn)$('soundStatus').textContent='Sound is off'}
+window.finnSpeak = say;
+      function renderSound(){$('soundToggle').textContent=soundOn?'🔊 Sound on':'🔇 Sound off';$('soundToggle').setAttribute('aria-pressed',String(soundOn));if(!soundOn)$('soundStatus').textContent='Sound is off'}
 $('soundToggle').addEventListener('click',()=>{soundOn=!soundOn;persist();renderSound();if(soundOn)say('Yay! Sound is on! Let’s have fun with math!');else stopVoice()});
 $('testSound').addEventListener('click',()=>say('Hi '+(localStorage.getItem('mathBuddiesPlayerName')||'Math Buddy')+'! I’m Finn the Fox! Welcome to Math Buddies! Let’s go on a magical math adventure together!'));
 $('readStory').addEventListener('click',()=>say(chapters[chapter].title+'. '+chapters[chapter].intro));
@@ -133,7 +134,7 @@ function checkMatch(number) {
     message.textContent = '🌟 Amazing! You matched it!';
     document.querySelectorAll('#matchChoices button')
       .forEach(button => button.disabled = true);
-    say('Amazing! You matched the number!');
+    window.finnSpeak('Amazing! You matched the number!');
   } else {
     message.textContent = '💜 Try again, Math Buddy!';
   }
