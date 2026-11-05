@@ -133,7 +133,7 @@ function checkMatch(number) {
     message.textContent = '🌟 Amazing! You matched it!';
     document.querySelectorAll('#matchChoices button')
       .forEach(button => button.disabled = true);
-    say('Amazing! You matched the number!');
+    setTimeout(() => say('Amazing! You matched the number!'), 150);
   } else {
     message.textContent = '💜 Try again, Math Buddy!';
   }
