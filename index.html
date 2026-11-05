@@ -84,7 +84,7 @@ document.querySelectorAll('[data-topic]').forEach(btn=>btn.addEventListener('cli
 $('reset').addEventListener('click',()=>{if(!confirm('Start fresh? This clears all stars and unlocked chapters on this device.'))return;stopVoice();saved={stars:0,solved:0,streak:0};chapter=0;state.index=0;state.roundCorrect=0;persist();renderStats();renderQuestion()});
 renderStats();renderSound();renderStory();renderQuestion();
 })();
-</y
+</script>
 
 <section id="matchingGame" style="background:#fff0fc;padding:20px;border-radius:20px;text-align:center;margin:20px;">
   <h2>🦊 Number Matching Game ⭐</h2>
