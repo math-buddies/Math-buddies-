@@ -133,8 +133,13 @@ function checkMatch(number) {
     message.textContent = '🌟 Amazing! You matched it!';
     document.querySelectorAll('#matchChoices button')
       .forEach(button => button.disabled = true);
-    if (typeof say === 'function') {
-      say('Amazing! You matched the number!');
+    if ('speechSynthesis' in window) {
+      const voice = new SpeechSynthesisUtterance('Amazing! You matched the number!');
+voice.lang = 'en-US';
+voice.rate = 0.87;
+voice.pitch = 1.2;
+window.speechSynthesis.cancel();
+window.speechSynthesis.speak(voice);
     }
   } else {
     message.textContent = '💜 Try again, Math Buddy!';
